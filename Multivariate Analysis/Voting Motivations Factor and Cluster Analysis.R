@@ -12,7 +12,7 @@ library(NbClust)
 library(factoextra)
 
 ### Dataset
-vote <- read_excel("Voting Motivations Data Set.xlsx") 
+vote <- read_excel("/Users/jbvictorio/Downloads/Voting Motivations Data Set.xlsx") 
 vote2 <- vote %>% select(Column1, Column2, Column3, Column4, Column5, Column6, Column7, Column8, Column9, Column10, Column11, Column12, Column13, Column14, Column15, Column16, Column17, Column18, Column19, Column20, Column21, Column22, Column23, Column24)
 vote_motive <- as.data.frame(na.omit(vote2))
 
@@ -75,6 +75,7 @@ vss(standardized_motive)
 final_vote <- vote %>% select(Column1, Column2, Column3, Column4, Column5, Column6, Column7, Column8, Column9, Column12, Column13, Column14, Column15, Column17, Column18)
 final_vote_motive <- as.data.frame(na.omit(final_vote))
 final_standardized_motive <- scale(final_vote_motive)
+cluster_final_standardized_motive <- scale(final_vote_motive)
 
 fa <- psych::fa(r = final_standardized_motive,
                 nfactors = 4,
@@ -133,11 +134,6 @@ plot(agnes_mahal_comp, which.plots = 2)
 survey_mahal <- mahal(fa$scores)
 
 ### Ward's and Mahalanobis
-best_ch <- NbClust(data = factors,
-                   distance = NULL,
-                   method = "ward.D2",
-                   index = "ch")
-
 best_silhouette <- NbClust(data = factors,
                            diss = survey_mahal,
                            distance = NULL,
@@ -240,8 +236,6 @@ best_tau <- NbClust(data = factors,
                       distance = NULL,
                       method = "ward.D2", 
                       index = "tau")
-best_ch$Best.nc
-best_dunn$Best.nc
 best_frey$Best.nc
 best_gamma$Best.nc
 best_gap$Best.nc
@@ -372,12 +366,12 @@ best_scott$Best.nc
 ward_cluster6 <- cutree(tree = agnes_mahal_comp, k = 5)
 table(ward_cluster6)
 
-ward_cluster8 <- cutree(tree = agnes_ward, k = 5)
-table(ward_cluster8)
-
 ## Euclidean
 agnes_ward <- cluster::agnes(x = cluster_final_standardized_motive, metric ="euclidean", method = "ward")
 plot(agnes_ward, which.plots = 2)
+
+ward_cluster8 <- cutree(tree = agnes_ward, k = 5)
+table(ward_cluster8)
 
 ward_clust5 <- cutree(tree = agnes_ward, k = 6)
 table(ward_clust5)
