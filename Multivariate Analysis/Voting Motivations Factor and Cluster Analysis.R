@@ -12,7 +12,7 @@ library(NbClust)
 library(factoextra)
 
 ### Dataset
-vote <- read_excel("D:/JANINE THE ROCKSTAR/UP/4th year/Stat 147/Paper/data.xlsx") 
+vote <- read_excel("Voting Motivations Data Set.xlsx") 
 vote2 <- vote %>% select(Column1, Column2, Column3, Column4, Column5, Column6, Column7, Column8, Column9, Column10, Column11, Column12, Column13, Column14, Column15, Column16, Column17, Column18, Column19, Column20, Column21, Column22, Column23, Column24)
 vote_motive <- as.data.frame(na.omit(vote2))
 
